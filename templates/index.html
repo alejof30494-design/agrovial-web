@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AGROVIAL MRA - Presupuestos</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0D1B2A;--navy-mid:#1B3A5C;--navy-light:#2E5A88;--blue:#4A90D9;--accent:#8896A6;--bg:#ECEEF3;--white:#FFF;--text:#1A1A2E;--text-s:#5A6577;--border:#C5CDD8;--border-l:#DEE3EA;--row-e:#F4F7FB;--danger:#C0392B;--green:#2E7D32}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.header{background:var(--navy);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:4px solid var(--accent)}
+.header-left{display:flex;align-items:center;gap:14px}
+.header-left img{height:50px;width:50px;object-fit:contain;border-radius:4px}
+.header-left h1{color:#fff;font-size:22px;font-weight:700}
+.header-right{text-align:right}
+.header-right .label{color:var(--blue);font-size:11px;font-weight:700}
+.header-right .num{color:var(--accent);font-size:22px;font-family:Consolas,monospace;font-weight:700}
+.container{max-width:1100px;margin:0 auto;padding:24px}
+.card{background:var(--white);border:1px solid var(--border);border-radius:6px;margin-bottom:16px;overflow:hidden}
+.card-top{height:4px;background:var(--navy-mid)}
+.card-top.accent{background:var(--accent)}
+.card-body{padding:20px 24px}
+.info-row{display:flex;gap:20px;flex-wrap:wrap}
+.info-field{flex:1;min-width:220px}
+.info-field label{display:block;font-size:11px;font-weight:700;color:var(--text-s);margin-bottom:4px}
+.info-field input{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:4px;font-size:14px;outline:none;transition:border .2s}
+.info-field input:focus{border-color:var(--blue)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+thead{background:var(--navy);color:#fff}
+th{padding:10px 12px;font-size:12px;font-weight:700;text-align:center;white-space:nowrap}
+th:first-child{text-align:left}
+tbody tr{border-bottom:1px solid var(--border-l);transition:background .15s}
+tbody tr:nth-child(even){background:var(--row-e)}
+tbody tr:hover{background:#EDF2F9}
+td{padding:6px 8px}
+td input{width:100%;padding:6px 8px;border:1px solid var(--border-l);border-radius:3px;font-size:13px;outline:none;transition:border .2s}
+td input:focus{border-color:var(--blue)}
+td.name-cell{min-width:280px}
+td.num-cell input{text-align:right;width:100px}
+td.total-cell{text-align:right;font-weight:700;font-family:Consolas,monospace;color:var(--navy-mid);font-size:13px;padding-right:12px;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border:none;border-radius:4px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn:hover{opacity:.85}
+.btn-add{background:var(--navy-light);color:#fff}
+.btn-del{background:transparent;color:var(--danger);font-size:16px;font-weight:700;padding:4px 8px;cursor:pointer;border:none}
+.btn-del:hover{color:#922B21}
+.btn-insert{background:transparent;color:var(--navy-light);font-size:16px;font-weight:700;padding:4px 8px;cursor:pointer;border:none}
+.btn-insert:hover{color:var(--blue)}
+.btn-clear{background:#78909C;color:#fff}
+.btn-save{background:var(--green);color:#fff}
+.btn-load{background:#1565C0;color:#fff}
+.btn-word{background:var(--accent);color:#fff}
+.btn-pdf{background:var(--navy-mid);color:#fff}
+.total-box{background:var(--navy);color:var(--accent);text-align:center;padding:16px;border-radius:4px;font-size:28px;font-weight:700;font-family:Consolas,monospace}
+.actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:0 0 10px 0}
+.actions-left{display:flex;gap:10px;flex-wrap:wrap}
+.actions-right{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
+.note{font-size:11px;color:var(--text-s)}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.active{display:flex}
+.modal{background:var(--white);border-radius:8px;padding:24px;min-width:360px;max-width:460px;max-height:80vh;overflow-y:auto}
+.modal h3{margin-bottom:14px;color:var(--text)}
+.modal .saved-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border:1px solid var(--border-l);border-radius:4px;margin-bottom:8px;cursor:pointer;transition:background .15s}
+.modal .saved-item:hover{background:#EDF2F9}
+.modal .saved-item .meta{font-size:12px;color:var(--text-s)}
+.modal .close-btn{margin-top:12px;text-align:right}
+.toast{position:fixed;top:20px;right:20px;padding:14px 24px;border-radius:6px;color:#fff;font-weight:700;font-size:14px;z-index:2000;animation:fadeIn .3s}
+.toast.success{background:var(--green)}
+.toast.error{background:var(--danger)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.table-actions{display:flex;justify-content:space-between;align-items:center;padding-top:10px;flex-wrap:wrap;gap:8px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <img src="/logo" alt="Logo" onerror="this.style.display='none'">
+    <h1>AGROVIAL MRA</h1>
+  </div>
+  <div class="header-right">
+    <div class="label">PRESUPUESTO N°</div>
+    <div class="num" id="presupuestoNum">{{ num }}</div>
+  </div>
+</div>
+
+<div class="container">
+  <!-- INFO -->
+  <div class="card">
+    <div class="card-top"></div>
+    <div class="card-body">
+      <div class="info-row">
+        <div class="info-field" style="flex:2">
+          <label>Cliente / Razon Social:</label>
+          <input type="text" id="client" value="TRANQUERITA S.A">
+        </div>
+        <div class="info-field">
+          <label>Fecha de emision:</label>
+          <input type="text" id="fecha" value="{{ date }}" placeholder="dd/mm/aaaa">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA -->
+  <div class="card">
+    <div class="card-top"></div>
+    <div class="card-body">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:50%">NOMBRE DEL ARTICULO / SERVICIO</th>
+              <th>CANTIDAD</th>
+              <th>PRECIO UNIT. (Gs.)</th>
+              <th>TOTAL (Gs.)</th>
+              <th style="width:70px"></th>
+            </tr>
+          </thead>
+          <tbody id="itemsBody"></tbody>
+        </table>
+      </div>
+      <div class="table-actions">
+        <div class="actions-left">
+          <button class="btn btn-add" onclick="addRow()">+ Agregar item</button>
+          <button class="btn btn-clear" onclick="clearTable()" style="background:var(--danger);color:#fff">Limpiar tabla</button>
+          <span class="note">Click + para insertar debajo de una fila</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOTAL -->
+  <div class="card">
+    <div class="card-top accent"></div>
+    <div class="card-body">
+      <div style="font-size:12px;font-weight:700;color:var(--navy-mid);margin-bottom:8px">TOTAL</div>
+      <hr style="border:none;border-top:1px solid var(--border-l);margin-bottom:10px">
+      <div class="total-box" id="grandTotal">Gs. 0</div>
+    </div>
+  </div>
+
+  <!-- ACCIONES -->
+  <div class="card">
+    <div class="card-body">
+      <div class="actions">
+        <div class="actions-left">
+          <button class="btn btn-clear" onclick="clearForm()">LIMPIAR TODO</button>
+          <button class="btn btn-save" onclick="savePresupuesto()">GUARDAR</button>
+          <button class="btn btn-load" onclick="openLoadModal()">CARGAR</button>
+        </div>
+        <div class="actions-right">
+          <button class="btn btn-word" onclick="generateWord()">GENERAR WORD</button>
+          {% if has_pdf %}
+          <button class="btn btn-pdf" onclick="askOrientation()">GENERAR PDF</button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ORIENTACION -->
+<div class="modal-overlay" id="orientModal">
+  <div class="modal">
+    <h3>Elija orientacion del PDF</h3>
+    <div style="display:flex;gap:12px;justify-content:center;margin:20px 0">
+      <button class="btn btn-pdf" style="padding:14px 28px;font-size:14px" onclick="generatePDF('L')">Horizontal</button>
+      <button class="btn btn-word" style="padding:14px 28px;font-size:14px" onclick="generatePDF('P')">Vertical</button>
+    </div>
+    <div class="close-btn">
+      <button class="btn" onclick="closeModal('orientModal')" style="color:var(--text-s)">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CARGAR -->
+<div class="modal-overlay" id="loadModal">
+  <div class="modal">
+    <h3>Seleccionar presupuesto</h3>
+    <div id="savedList"></div>
+    <div class="close-btn">
+      <button class="btn" onclick="closeModal('loadModal')" style="color:var(--text-s)">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let rowCount = 0;
+
+function addRow(name='', qty='', price='', afterIdx=null) {
+  const tbody = document.getElementById('itemsBody');
+  const tr = document.createElement('tr');
+  const idx = rowCount++;
+  tr.id = 'row-'+idx;
+  const total = (parseFloat(qty)||0) * (parseMoney(price)||0);
+  tr.innerHTML = `
+    <td class="name-cell"><input type="text" class="i-name" value="${esc(name)}" oninput="recalc()"></td>
+    <td class="num-cell"><input type="text" class="i-qty" value="${esc(qty)}" oninput="recalc()"></td>
+    <td class="num-cell"><input type="text" class="i-price" value="${esc(price)}" oninput="recalc()"></td>
+    <td class="total-cell" data-idx="${idx}">${fmtMoney(total)}</td>
+    <td style="text-align:center;white-space:nowrap">
+      <button class="btn-insert" title="Insertar debajo" onclick="insertAfter(${idx})">+</button>
+      <button class="btn-del" title="Eliminar" onclick="removeRow(${idx})">x</button>
+    </td>`;
+
+  if (afterIdx !== null) {
+    const rows = tbody.querySelectorAll('tr');
+    let inserted = false;
+    for (const r of rows) {
+      if (r.dataset.idx == afterIdx) {
+        r.after(tr);
+        inserted = true;
+        break;
+      }
+    }
+    if (!inserted) tbody.appendChild(tr);
+  } else {
+    tbody.appendChild(tr);
+  }
+  tr.dataset.idx = idx;
+  recalc();
+}
+
+function insertAfter(idx) {
+  addRow('', '', '', idx);
+}
+
+function removeRow(idx) {
+  const tr = document.getElementById('row-'+idx);
+  if (tr) tr.remove();
+  recalc();
+}
+
+function clearTable() {
+  document.getElementById('itemsBody').innerHTML = '';
+  rowCount = 0;
+  for (let i = 0; i < 4; i++) addRow();
+  recalc();
+}
+
+function clearForm() {
+  document.getElementById('client').value = 'TRANQUERITA S.A';
+  document.getElementById('fecha').value = '{{ date }}';
+  clearTable();
+  fetch('/api/next_num').then(r=>r.json()).then(d=>{
+    document.getElementById('presupuestoNum').textContent = d.num;
+  });
+}
+
+function parseMoney(s) {
+  if (!s) return 0;
+  s = s.replace(/Gs\.| /g,'').replace(/\./g,'').replace(/,/g,'');
+  return parseInt(s) || 0;
+}
+
+function fmtMoney(n) {
+  return Math.round(n).toLocaleString('es-PY').replace(/,/g,'.');
+}
+
+function esc(s) { return s ? s.replace(/"/g,'&quot;') : ''; }
+
+function getItems() {
+  const rows = document.querySelectorAll('#itemsBody tr');
+  const items = [];
+  rows.forEach(r => {
+    items.push({
+      name: r.querySelector('.i-name').value,
+      qty: r.querySelector('.i-qty').value,
+      price: r.querySelector('.i-price').value
+    });
+  });
+  return items;
+}
+
+function recalc() {
+  let grand = 0;
+  document.querySelectorAll('#itemsBody tr').forEach(r => {
+    const q = parseFloat(r.querySelector('.i-qty').value) || 0;
+    const p = parseMoney(r.querySelector('.i-price').value);
+    const t = q * p;
+    grand += t;
+    r.querySelector('.total-cell').textContent = fmtMoney(t);
+  });
+  document.getElementById('grandTotal').textContent = 'Gs. ' + fmtMoney(grand);
+}
+
+function toast(msg, type) {
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+function generateWord() {
+  const data = {
+    client: document.getElementById('client').value,
+    date: document.getElementById('fecha').value,
+    items: getItems()
+  };
+  fetch('/api/generate_word', {
+    method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data)
+  }).then(r=>r.json()).then(d => {
+    if (d.success) {
+      toast('Presupuesto N° ' + d.num + ' generado | Total: ' + d.total, 'success');
+      document.getElementById('presupuestoNum').textContent = d.num;
+      fetch('/api/next_num').then(r=>r.json()).then(n=>{
+        document.getElementById('presupuestoNum').textContent = n.num;
+      });
+    } else {
+      toast(d.error || 'Error', 'error');
+    }
+  }).catch(e => toast('Error de conexion', 'error'));
+}
+
+function askOrientation() {
+  document.getElementById('orientModal').classList.add('active');
+}
+
+function generatePDF(orientation) {
+  closeModal('orientModal');
+  const data = {
+    client: document.getElementById('client').value,
+    date: document.getElementById('fecha').value,
+    items: getItems(),
+    orientation: orientation
+  };
+  fetch('/api/generate_pdf', {
+    method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data)
+  }).then(r=>r.json()).then(d => {
+    if (d.success) {
+      toast('PDF N° ' + d.num + ' generado | Total: ' + d.total, 'success');
+      fetch('/api/next_num').then(r=>r.json()).then(n=>{
+        document.getElementById('presupuestoNum').textContent = n.num;
+      });
+    } else {
+      toast(d.error || 'Error', 'error');
+    }
+  }).catch(e => toast('Error de conexion', 'error'));
+}
+
+function savePresupuesto() {
+  const data = {
+    client: document.getElementById('client').value,
+    date: document.getElementById('fecha').value,
+    num: document.getElementById('presupuestoNum').textContent,
+    items: getItems()
+  };
+  fetch('/api/save', {
+    method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data)
+  }).then(r=>r.json()).then(d => {
+    if (d.success) toast('Guardado: ' + d.file, 'success');
+    else toast('Error al guardar', 'error');
+  });
+}
+
+function openLoadModal() {
+  fetch('/api/saved_list').then(r=>r.json()).then(list => {
+    const el = document.getElementById('savedList');
+    if (!list.length) { el.innerHTML = '<p style="color:var(--text-s);padding:12px 0">No hay presupuestos guardados.</p>'; }
+    else {
+      el.innerHTML = list.map(s => `
+        <div class="saved-item" onclick="loadPresupuesto('${s.file}')">
+          <div>
+            <strong>${s.num}</strong> - ${s.client || 'Sin cliente'}
+            <div class="meta">${s.date}</div>
+          </div>
+        </div>`).join('');
+    }
+    document.getElementById('loadModal').classList.add('active');
+  });
+}
+
+function loadPresupuesto(file) {
+  fetch('/api/load/'+file).then(r=>r.json()).then(d => {
+    document.getElementById('client').value = d.client || '';
+    document.getElementById('fecha').value = d.date || '';
+    document.getElementById('presupuestoNum').textContent = d.num || '';
+    document.getElementById('itemsBody').innerHTML = '';
+    rowCount = 0;
+    (d.items || []).forEach(i => addRow(i.name, i.qty, i.price));
+    if (!d.items || !d.items.length) for (let j=0;j<4;j++) addRow();
+    recalc();
+    closeModal('loadModal');
+    toast('Presupuesto cargado', 'success');
+  });
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+}
+
+// Init
+for (let i = 0; i < 4; i++) addRow();
+</script>
+</body>
+</html>

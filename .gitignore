@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+.venv/
+venv/
+*.log
+cloudflared.exe
+ngrok.zip
+ngrok.exe
+build/
+dist/
+*.spec
+.Python
