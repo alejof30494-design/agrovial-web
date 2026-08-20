@@ -131,7 +131,7 @@ def generate_pdf_route():
     pdf.add_page()
     W = 297 if is_landscape else 210
 
-    pdf.set_fill_color(13, 27, 42)
+    pdf.set_fill_color(232, 237, 243)
     pdf.rect(0, 0, W, 35, 'F')
 
     x_start = 10
@@ -143,16 +143,16 @@ def generate_pdf_route():
             pass
 
     pdf.set_font('Helvetica', 'B', 16)
-    pdf.set_text_color(255, 255, 255)
+    pdf.set_text_color(44, 74, 124)
     pdf.set_xy(x_start, 8)
     pdf.cell(100, 8, 'AGROVIAL MRA', align='L')
 
     pdf.set_font('Helvetica', 'B', 14)
-    pdf.set_text_color(136, 150, 166)
+    pdf.set_text_color(113, 128, 150)
     pdf.set_xy(W - 97, 8)
     pdf.cell(87, 6, f'Presupuesto N\u00ba {num:07d}', align='R')
 
-    pdf.set_fill_color(136, 150, 166)
+    pdf.set_fill_color(203, 213, 224)
     pdf.rect(0, 35, W, 2, 'F')
 
     pdf.set_y(42)
@@ -175,8 +175,8 @@ def generate_pdf_route():
         headers = ['ARTICULO', 'CANT.', 'PRECIO UNIT.', 'TOTAL']
         hdr_font, row_font, max_name = 8, 8, 32
 
-    pdf.set_fill_color(13, 27, 42)
-    pdf.set_text_color(255, 255, 255)
+    pdf.set_fill_color(232, 237, 243)
+    pdf.set_text_color(44, 74, 124)
     pdf.set_font('Helvetica', 'B', hdr_font)
     for h, w in zip(headers, col_widths):
         pdf.cell(w, 7, h, border=0, fill=True, align='C')
@@ -206,10 +206,10 @@ def generate_pdf_route():
     pdf.line(W - total_w - 10, pdf.get_y(), W - 10, pdf.get_y())
     pdf.ln(5)
 
-    pdf.set_fill_color(13, 27, 42)
+    pdf.set_fill_color(232, 237, 243)
     pdf.set_x(W - total_w - 10)
     pdf.set_font('Helvetica', 'B', 11)
-    pdf.set_text_color(255, 255, 255)
+    pdf.set_text_color(44, 74, 124)
     pdf.cell(total_w, 10, f'TOTAL:  Gs. {money(grand)}', fill=True, align='R')
 
     buf = io.BytesIO()

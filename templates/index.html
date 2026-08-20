@@ -6,28 +6,28 @@
 <title>AGROVIAL MRA - Presupuestos</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--navy:#0D1B2A;--navy-mid:#1B3A5C;--navy-light:#2E5A88;--blue:#4A90D9;--accent:#8896A6;--bg:#ECEEF3;--white:#FFF;--text:#1A1A2E;--text-s:#5A6577;--border:#C5CDD8;--border-l:#DEE3EA;--row-e:#F4F7FB;--danger:#C0392B;--green:#2E7D32}
+:root{--primary:#4A6FA5;--primary-light:#E8EDF3;--primary-dark:#2C4A7C;--bg:#F7F8FA;--white:#FFF;--text:#2D3748;--text-s:#718096;--border:#E2E8F0;--border-l:#EDF2F7;--row-e:#F7FAFC;--danger:#E53E3E;--green:#38A169;--blue:#3182CE;--accent:#A0AEC0}
 body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-.header{background:var(--navy);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:4px solid var(--accent)}
+.header{background:var(--white);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--primary-light);box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .header-left{display:flex;align-items:center;gap:14px}
 .header-left img{height:50px;width:50px;object-fit:contain;border-radius:4px}
-.header-left h1{color:#fff;font-size:22px;font-weight:700}
+.header-left h1{color:var(--primary-dark);font-size:22px;font-weight:700}
 .header-right{text-align:right}
-.header-right .label{color:var(--blue);font-size:11px;font-weight:700}
-.header-right .num{color:var(--accent);font-size:22px;font-family:Consolas,monospace;font-weight:700}
+.header-right .label{color:var(--primary);font-size:11px;font-weight:700}
+.header-right .num{color:var(--text-s);font-size:22px;font-family:Consolas,monospace;font-weight:700}
 .container{max-width:1100px;margin:0 auto;padding:24px}
 .card{background:var(--white);border:1px solid var(--border);border-radius:6px;margin-bottom:16px;overflow:hidden}
-.card-top{height:4px;background:var(--navy-mid)}
+.card-top{height:3px;background:var(--primary-light)}
 .card-top.accent{background:var(--accent)}
 .card-body{padding:20px 24px}
 .info-row{display:flex;gap:20px;flex-wrap:wrap}
 .info-field{flex:1;min-width:220px}
 .info-field label{display:block;font-size:11px;font-weight:700;color:var(--text-s);margin-bottom:4px}
 .info-field input{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:4px;font-size:14px;outline:none;transition:border .2s}
-.info-field input:focus{border-color:var(--blue)}
+.info-field input:focus{border-color:var(--primary)}
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse}
-thead{background:var(--navy);color:#fff}
+thead{background:var(--primary-light);color:var(--primary-dark)}
 th{padding:10px 12px;font-size:12px;font-weight:700;text-align:center;white-space:nowrap}
 th:first-child{text-align:left}
 tbody tr{border-bottom:1px solid var(--border-l);transition:background .15s}
@@ -35,30 +35,30 @@ tbody tr:nth-child(even){background:var(--row-e)}
 tbody tr:hover{background:#EDF2F9}
 td{padding:6px 8px}
 td input{width:100%;padding:6px 8px;border:1px solid var(--border-l);border-radius:3px;font-size:13px;outline:none;transition:border .2s}
-td input:focus{border-color:var(--blue)}
+td input:focus{border-color:var(--primary)}
 td.name-cell{min-width:280px}
 td.num-cell input{text-align:right;width:100px}
-td.total-cell{text-align:right;font-weight:700;font-family:Consolas,monospace;color:var(--navy-mid);font-size:13px;padding-right:12px;white-space:nowrap}
+td.total-cell{text-align:right;font-weight:700;font-family:Consolas,monospace;color:var(--primary-dark);font-size:13px;padding-right:12px;white-space:nowrap}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border:none;border-radius:4px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit}
 .btn:hover{opacity:.85}
-.btn-add{background:var(--navy-light);color:#fff}
+.btn-add{background:var(--primary);color:#fff}
 .btn-del{background:transparent;color:var(--danger);font-size:16px;font-weight:700;padding:4px 8px;cursor:pointer;border:none}
-.btn-del:hover{color:#922B21}
-.btn-insert{background:transparent;color:var(--navy-light);font-size:16px;font-weight:700;padding:4px 8px;cursor:pointer;border:none}
-.btn-insert:hover{color:var(--blue)}
-.btn-clear{background:#78909C;color:#fff}
+.btn-del:hover{color:#C53030}
+.btn-insert{background:transparent;color:var(--primary);font-size:16px;font-weight:700;padding:4px 8px;cursor:pointer;border:none}
+.btn-insert:hover{color:var(--primary-dark)}
+.btn-clear{background:#A0AEC0;color:#fff}
 .btn-save{background:var(--green);color:#fff}
-.btn-load{background:#1565C0;color:#fff}
-.btn-word{background:var(--accent);color:#fff}
-.btn-pdf{background:var(--navy-mid);color:#fff}
-.total-box{background:var(--navy);color:var(--accent);text-align:center;padding:16px;border-radius:4px;font-size:28px;font-weight:700;font-family:Consolas,monospace}
+.btn-load{background:var(--blue);color:#fff}
+.btn-word{background:#5A6D8A;color:#fff}
+.btn-pdf{background:#6B7B95;color:#fff}
+.total-box{background:var(--primary-light);color:var(--primary-dark);text-align:center;padding:16px;border-radius:4px;font-size:28px;font-weight:700;font-family:Consolas,monospace;border:1px solid var(--border)}
 .actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:0 0 10px 0}
 .actions-left{display:flex;gap:10px;flex-wrap:wrap}
 .actions-right{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
 .note{font-size:11px;color:var(--text-s)}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:1000;align-items:center;justify-content:center}
 .modal-overlay.active{display:flex}
-.modal{background:var(--white);border-radius:8px;padding:24px;min-width:360px;max-width:460px;max-height:80vh;overflow-y:auto}
+.modal{background:var(--white);border-radius:8px;padding:24px;min-width:360px;max-width:460px;max-height:80vh;overflow-y:auto;border:1px solid var(--border)}
 .modal h3{margin-bottom:14px;color:var(--text)}
 .modal .saved-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border:1px solid var(--border-l);border-radius:4px;margin-bottom:8px;cursor:pointer;transition:background .15s}
 .modal .saved-item:hover{background:#EDF2F9}
@@ -69,6 +69,7 @@ td.total-cell{text-align:right;font-weight:700;font-family:Consolas,monospace;co
 .toast.error{background:var(--danger)}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
 .table-actions{display:flex;justify-content:space-between;align-items:center;padding-top:10px;flex-wrap:wrap;gap:8px}
+@media print{.header{background:#fff!important;border-bottom:2px solid #ccc!important;box-shadow:none!important}.btn,.actions,.table-actions .actions-left,.note{display:none!important}.card{border:1px solid #ddd!important;box-shadow:none!important}.total-box{background:#f0f0f0!important;border:1px solid #ccc!important}thead{background:#eee!important;color:#333!important}}
 </style>
 </head>
 <body>
@@ -134,7 +135,7 @@ td.total-cell{text-align:right;font-weight:700;font-family:Consolas,monospace;co
   <div class="card">
     <div class="card-top accent"></div>
     <div class="card-body">
-      <div style="font-size:12px;font-weight:700;color:var(--navy-mid);margin-bottom:8px">TOTAL</div>
+      <div style="font-size:12px;font-weight:700;color:var(--primary-dark);margin-bottom:8px">TOTAL</div>
       <hr style="border:none;border-top:1px solid var(--border-l);margin-bottom:10px">
       <div class="total-box" id="grandTotal">Gs. 0</div>
     </div>
@@ -293,25 +294,43 @@ function toast(msg, type) {
   setTimeout(() => t.remove(), 3500);
 }
 
+function downloadBlob(response, defaultName) {
+  const disp = response.headers.get('Content-Disposition');
+  let filename = defaultName;
+  if (disp) {
+    const m = disp.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+    if (m) filename = m[1].replace(/['"]/g, '');
+  }
+  return response.blob().then(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  });
+}
+
 function generateWord() {
   const data = {
     client: document.getElementById('client').value,
     date: document.getElementById('fecha').value,
     items: getItems()
   };
+  toast('Generando Word...', 'success');
   fetch('/api/generate_word', {
     method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data)
-  }).then(r=>r.json()).then(d => {
-    if (d.success) {
-      toast('Presupuesto N° ' + d.num + ' generado | Total: ' + d.total, 'success');
-      document.getElementById('presupuestoNum').textContent = d.num;
+  }).then(r => {
+    if (!r.ok) return r.json().then(e => { throw new Error(e.error || 'Error'); });
+    return downloadBlob(r, 'presupuesto.docx').then(() => {
+      toast('Word generado correctamente', 'success');
       fetch('/api/next_num').then(r=>r.json()).then(n=>{
         document.getElementById('presupuestoNum').textContent = n.num;
       });
-    } else {
-      toast(d.error || 'Error', 'error');
-    }
-  }).catch(e => toast('Error de conexion', 'error'));
+    });
+  }).catch(e => toast(e.message || 'Error de conexion', 'error'));
 }
 
 function askOrientation() {
@@ -326,18 +345,18 @@ function generatePDF(orientation) {
     items: getItems(),
     orientation: orientation
   };
+  toast('Generando PDF...', 'success');
   fetch('/api/generate_pdf', {
     method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data)
-  }).then(r=>r.json()).then(d => {
-    if (d.success) {
-      toast('PDF N° ' + d.num + ' generado | Total: ' + d.total, 'success');
+  }).then(r => {
+    if (!r.ok) return r.json().then(e => { throw new Error(e.error || 'Error'); });
+    return downloadBlob(r, 'presupuesto.pdf').then(() => {
+      toast('PDF generado correctamente', 'success');
       fetch('/api/next_num').then(r=>r.json()).then(n=>{
         document.getElementById('presupuestoNum').textContent = n.num;
       });
-    } else {
-      toast(d.error || 'Error', 'error');
-    }
-  }).catch(e => toast('Error de conexion', 'error'));
+    });
+  }).catch(e => toast(e.message || 'Error de conexion', 'error'));
 }
 
 function savePresupuesto() {
@@ -350,7 +369,7 @@ function savePresupuesto() {
   fetch('/api/save', {
     method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data)
   }).then(r=>r.json()).then(d => {
-    if (d.success) toast('Guardado: ' + d.file, 'success');
+    if (d.success) toast('Guardado: ' + d.num, 'success');
     else toast('Error al guardar', 'error');
   });
 }
