@@ -83,6 +83,8 @@ def generate_word():
             p.text = f'Fecha: {date} Presupuesto {num:07d}'
         elif p.text.strip().startswith('Total:'):
             p.text = f'Total: {money(grand)}'
+        if 'AGROVIAL' in p.text.upper() and 'TRANSCHACO' not in p.text.upper():
+            p.text = p.text + '\nRUTA TRANSCHACO KM 17.5 – 0981 810 250'
 
     if doc.tables:
         t = doc.tables[0]
@@ -146,6 +148,11 @@ def generate_pdf_route():
     pdf.set_text_color(44, 74, 124)
     pdf.set_xy(x_start, 8)
     pdf.cell(100, 8, 'AGROVIAL MRA', align='L')
+
+    pdf.set_font('Helvetica', '', 8)
+    pdf.set_text_color(113, 128, 150)
+    pdf.set_xy(x_start, 17)
+    pdf.cell(100, 5, 'RUTA TRANSCHACO KM 17.5 - 0981 810 250', align='L')
 
     pdf.set_font('Helvetica', 'B', 14)
     pdf.set_text_color(113, 128, 150)
